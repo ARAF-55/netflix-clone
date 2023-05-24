@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import './Nav.css';
+import { useNavigate } from 'react-router-dom';
 
 function Nav() {
+    const navigate = useNavigate();
     const [show, handleShow] = useState(false);
 
     const transitionNavbar = () => {
@@ -20,8 +22,8 @@ function Nav() {
     return (
         <div className={`nav ${show && 'nav_black'}`}>
             <div className='nav_contents nav_black'>
-                <img src='https://upload.wikimedia.org/wikipedia/commons/7/7a/Logonetflix.png' alt='' className='nav_logo' />
-                <img src='https://upload.wikimedia.org/wikipedia/commons/0/0b/Netflix-avatar.png' alt='' className='nav_avatar' />
+                <img onClick={() => navigate('/')} src='https://upload.wikimedia.org/wikipedia/commons/7/7a/Logonetflix.png' alt='' className='nav_logo' />
+                <img onClick={() => navigate('profile')} src='https://upload.wikimedia.org/wikipedia/commons/0/0b/Netflix-avatar.png' alt='' className='nav_avatar' />
             </div>
         </div>
     );

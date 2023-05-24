@@ -3,9 +3,11 @@ import './RootLayout.css';
 
 function RootLayout() {
     return (
+
         <div className="root">
             <Outlet />
         </div>
+
     );
 }
 
