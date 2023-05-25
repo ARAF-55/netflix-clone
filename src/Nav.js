@@ -23,7 +23,7 @@ function Nav() {
         <div className={`nav ${show && 'nav_black'}`}>
             <div className='nav_contents nav_black'>
                 <img onClick={() => navigate('/')} src='https://upload.wikimedia.org/wikipedia/commons/7/7a/Logonetflix.png' alt='' className='nav_logo' />
-                <img onClick={() => navigate('profile')} src='https://upload.wikimedia.org/wikipedia/commons/0/0b/Netflix-avatar.png' alt='' className='nav_avatar' />
+                <img onClick={() => navigate('/profile')} src='https://upload.wikimedia.org/wikipedia/commons/0/0b/Netflix-avatar.png' alt='' className='nav_avatar' />
             </div>
         </div>
     );

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import HomeScreen from './screens/HomeScreen';
 import LoginScreen from './screens/LoginScreen';
 import RootLayout from './RootLayout';
@@ -6,6 +6,9 @@ import { useSelector } from 'react-redux';
 import { selectUser, login, logout } from './features/userSlice';
 import { auth, onAuthStateChanged } from './firebase';
 import { useDispatch } from 'react-redux';
+import { setPackage, unsetPackage, selectSubscription } from './features/subscribeSlice';
+
+import { colRef, query, onSnapshot, where, documentId } from './firebase';
 
 import {
   createBrowserRouter,
@@ -22,6 +25,7 @@ import DefaultScreen from './screens/DefaultScreen';
 function App() {
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
+  const [authChecked, setAuthChecked] = useState(false);
 
   const router1 = createBrowserRouter(
     createRoutesFromElements(
@@ -47,17 +51,30 @@ function App() {
           uid: userAuth.uid,
           email: userAuth.email
         }));
+
+        const q = query(colRef, where(documentId(), "==", user.email));
+        const unsubscribe = onSnapshot(q, snapshot => {
+          const [my_data] = snapshot.docs;
+          const { Product } = my_data.data();
+        });
       }
       else {
         dispatch(logout());
       }
+      setAuthChecked(true);
     });
     return unSubscribe;
   }, []);
 
+  if (!authChecked) {
+    return <DefaultScreen />;
+  }
+
+
   return (
     <RouterProvider router={user ? router1 : router2} />
   );
+
 }
 
 export default App;

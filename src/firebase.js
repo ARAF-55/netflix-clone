@@ -1,4 +1,5 @@
 import { initializeApp } from "firebase/app";
+
 import {
     getAuth,
     createUserWithEmailAndPassword,
@@ -6,6 +7,16 @@ import {
     signOut,
     onAuthStateChanged
 } from 'firebase/auth';
+
+import {
+    getFirestore,
+    collection,
+    onSnapshot,
+    query,
+    where,
+    documentId
+} from 'firebase/firestore';
+
 
 const firebaseConfig = {
     apiKey: "AIzaSyAnRUtbGCwBIBTc0YmYmdXcZ5bjf2fO3As",
@@ -19,8 +30,12 @@ const firebaseConfig = {
 initializeApp(firebaseConfig);
 
 const auth = getAuth();
+const db = getFirestore();
+const colRef = collection(db, 'payments');
+
+
 
 export {
     auth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
-    signOut, onAuthStateChanged
+    signOut, onAuthStateChanged, colRef, query, onSnapshot, where, documentId
 };

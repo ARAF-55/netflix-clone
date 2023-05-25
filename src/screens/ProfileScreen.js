@@ -4,13 +4,14 @@ import './ProfileScreen.css';
 import { selectUser } from '../features/userSlice';
 import { auth, signOut } from '../firebase';
 import { useNavigate } from 'react-router-dom';
+import PlanScreen from './PlanScreen';
 
 function ProfileScreen() {
     const navigate = useNavigate();
     const user = useSelector(selectUser);
     const handleSignOut = () => {
-        signOut(auth)
-            .then(navigate('/', { replace: true }));
+        signOut(auth);
+        navigate('/', { replace: true });
     };
 
     return (
@@ -24,6 +25,8 @@ function ProfileScreen() {
                     <div className='profileScreen_details'>
                         <h2>{user.email}</h2>
                         <div className='profileScreen_plans'>
+                            <h3>Plans</h3>
+                            <PlanScreen />
                             <button onClick={handleSignOut} className='profileScreen_signOut'>Sign Out</button>
                         </div>
                     </div>

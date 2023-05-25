@@ -1,8 +1,8 @@
-import React from 'react'
+import './DefaultScreen.css';
 
 function DefaultScreen() {
     return (
-        <div>404</div>
+        <div className='defaultScreen' />
     )
 }
 
