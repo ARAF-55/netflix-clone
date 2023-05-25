@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import { selectUser, login, logout } from './features/userSlice';
 import { auth, onAuthStateChanged } from './firebase';
 import { useDispatch } from 'react-redux';
-import { setPackage, unsetPackage, selectSubscription } from './features/subscribeSlice';
+import { setPackage, unsetPackage } from './features/subscribeSlice';
 
 import { colRef, query, onSnapshot, where, documentId } from './firebase';
 
@@ -51,19 +51,22 @@ function App() {
           uid: userAuth.uid,
           email: userAuth.email
         }));
-
-        const q = query(colRef, where(documentId(), "==", user.email));
-        const unsubscribe = onSnapshot(q, snapshot => {
+        const q = query(colRef, where(documentId(), "==", userAuth.email));
+        const unPackage = onSnapshot(q, snapshot => {
           const [my_data] = snapshot.docs;
           const { Product } = my_data.data();
+          dispatch(setPackage(Product));
         });
       }
       else {
         dispatch(logout());
+        dispatch(unsetPackage());
       }
       setAuthChecked(true);
     });
-    return unSubscribe;
+    return () => {
+      unSubscribe();
+    };
   }, []);
 
   if (!authChecked) {

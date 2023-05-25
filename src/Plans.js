@@ -1,23 +1,25 @@
-import { useState, useEffect } from 'react';
 import './Plans.css';
 import { useSelector } from 'react-redux';
 import { selectUser } from './features/userSlice';
-import { colRef } from './firebase';
-import { documentId, query, where, onSnapshot } from 'firebase/firestore';
+import { selectSubscription } from './features/subscribeSlice';
+import { db, updateDoc, doc } from './firebase';
+
 
 function Plans({ title, type }) {
-    const [subscribed, setSubscribed] = useState("");
+    const subscribed = useSelector(selectSubscription);
     const user = useSelector(selectUser);
 
-
-    const q = query(colRef, where(documentId(), "==", user.email));
-    const unsubscribe = onSnapshot(q, snapshot => {
-        const [my_data] = snapshot.docs;
-        const { Product } = my_data.data();
-        setSubscribed(Product);
-    });
-
-
+    const handleClick = async () => {
+        if (subscribed === title) {
+            return
+        }
+        else {
+            const docRef = doc(db, 'payments', user.email);
+            await updateDoc(docRef, {
+                Product: title,
+            });
+        }
+    }
 
     return (
         <div className='plans'>
@@ -25,7 +27,7 @@ function Plans({ title, type }) {
                 <h3>{title}</h3>
                 <h4>{type}</h4>
             </div>
-            <button className={`plansRight ${subscribed === title ? 'current' : ''}`}>
+            <button onClick={handleClick} className={`plansRight ${subscribed === title ? 'current' : ''}`}>
                 {(subscribed === title) ? 'Current Package' : 'Subscribe'}
             </button>
         </div>

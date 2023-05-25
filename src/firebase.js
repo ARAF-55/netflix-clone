@@ -14,7 +14,11 @@ import {
     onSnapshot,
     query,
     where,
-    documentId
+    documentId,
+    updateDoc,
+    doc,
+    addDoc,
+    setDoc
 } from 'firebase/firestore';
 
 
@@ -37,5 +41,6 @@ const colRef = collection(db, 'payments');
 
 export {
     auth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
-    signOut, onAuthStateChanged, colRef, query, onSnapshot, where, documentId
+    signOut, onAuthStateChanged, colRef, query, onSnapshot, where, documentId, db,
+    updateDoc, doc, addDoc, setDoc
 };

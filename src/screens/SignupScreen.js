@@ -7,6 +7,7 @@ import {
 import { login } from '../features/userSlice';
 import { useDispatch } from 'react-redux';
 import { useRef } from 'react';
+import { colRef, setDoc, doc } from '../firebase';
 
 function SignupScreen() {
     const dispatch = useDispatch();
@@ -27,11 +28,14 @@ function SignupScreen() {
 
     const register = () => {
         createUserWithEmailAndPassword(auth, email.current.value, password.current.value)
-            .then(userCred => {
+            .then(async userCred => {
+                await setDoc(doc(colRef, userCred.user.email), {
+                    Product: "Netflix Standard"
+                });
                 dispatch(login({
                     uid: userCred.user.uid,
                     email: userCred.user.email
-                }))
+                }));
             })
     };
 
